@@ -1,0 +1,878 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Quotes API",
+    "description": "This is swagger documentation of NodeJS API project of Quotes Application",
+    "contact": {
+      "email": "pshirsat.cci@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "host": "localhost:4000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "scheme": "bearer",
+      "bearerFormat": "JWT",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter the token with the Bearer: prefix, e.g. \"Bearer abcde12345\"",
+      "securityScheme": "bearerAuth"
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/quote/": {
+      "get": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to get all the quotes",
+        "description": "Find all quotes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Fetched all quotes successfully",
+            "schema": {
+              "$ref": "#/definitions/QuotesArrayResponse"
+            }
+          },
+          "404": {
+            "description": "Quotes not found",
+            "schema": {
+              "$ref": "#/definitions/NotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to create a new quote",
+        "description": "Add a new quote",
+        "parameters": [
+          {
+            "name": "Quote",
+            "description": "Quote data to create a new quote",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/QuoteRequestData"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Quote created successfully",
+            "schema": {
+              "$ref": "#/definitions/QuoteResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/quote/search": {
+      "get": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "Search a quote by author, quote or by tags",
+        "description": "Search for a quote by either Author name or quote substring or by tags",
+        "parameters": [
+          {
+            "name": "author",
+            "description": "search for quote by author name",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "quote",
+            "description": "Search for a quote by the quote substring",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "tags",
+            "description": "Search for quotes by tags",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found the quotes successfully",
+            "schema": {
+              "$ref": "#/definitions/QuotesArrayResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "Quotes not found",
+            "schema": {
+              "$ref": "#/definitions/NotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        }
+      }
+    },
+    "/quote/{quoteId}": {
+      "get": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to find quote by quote ID",
+        "description": "Find quote by quote ID",
+        "parameters": [
+          {
+            "name": "quoteId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Search for the quote by this ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found the quote successfully",
+            "schema": {
+              "$ref": "#/definitions/QuoteResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "Quote not found",
+            "type": "string"
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "Update quote data like quote, author or tags searched by quote Id.",
+        "description": "Update quote data.",
+        "parameters": [
+          {
+            "name": "quoteId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Quote ID to find the Quote to be updated"
+          },
+          {
+            "name": "Quote",
+            "description": "Quote data to be updated",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/QuoteRequestData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quote updated successfully",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to remove a quote by ID",
+        "description": "Delete a quote by quote ID",
+        "parameters": [
+          {
+            "name": "quoteId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Quote ID to find the quote to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Removed quote successfully",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/quote/{quoteId}/like/up": {
+      "patch": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to increase like count of quote by 1",
+        "description": "Like a Quote",
+        "parameters": [
+          {
+            "name": "quoteId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Quote ID to find quote"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successfull",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/quote/{quoteId}/like/down": {
+      "patch": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to decrease like count of quote by 1",
+        "description": "Reduce like count of a Quote",
+        "parameters": [
+          {
+            "name": "quoteId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Quote ID to find quote"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successfull",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/quote/{quoteId}/dislike/up": {
+      "patch": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to increase dislike count of quote by 1",
+        "description": "Dislike a Quote",
+        "parameters": [
+          {
+            "name": "quoteId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Quote ID to find quote"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successfull",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/quote/{quoteId}/dislike/down": {
+      "patch": {
+        "tags": [
+          "Quotes"
+        ],
+        "summary": "API to decrease dislike count of quote by 1",
+        "description": "Reduce dislike count of a Quote",
+        "parameters": [
+          {
+            "name": "quoteId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Quote ID to find quote"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successfull",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/author/": {
+      "get": {
+        "tags": [
+          "Authors"
+        ],
+        "summary": "Fetch all authors",
+        "description": "Fetch all authors",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Authors data fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/AuthorResponse"
+            }
+          },
+          "404": {
+            "description": "Authors data not found",
+            "schema": {
+              "$ref": "#/definitions/NotFoundResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        }
+      }
+    },
+    "/user/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "API to register a new user",
+        "description": "Registration of a new user",
+        "parameters": [
+          {
+            "name": "user",
+            "description": "user data to store",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created user successfully",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "API to login by a registered user",
+        "description": "User login",
+        "parameters": [
+          {
+            "name": "user",
+            "description": "user data to authenticate credentials",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully logged in",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "404": {
+            "description": "User doesnt exists",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        }
+      }
+    },
+    "/user/current": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "API to get data of logged in user",
+        "description": "Get current user details",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User data fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/UserData"
+            }
+          },
+          "400": {
+            "description": "validation error",
+            "schema": {
+              "$ref": "#/definitions/ValidationResponse"
+            }
+          },
+          "500": {
+            "description": "Unknown server side error",
+            "schema": {
+              "$ref": "#/definitions/ServerSideError"
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ValidationResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "Not a Valid UUID "
+        }
+      }
+    },
+    "QuoteRequestData": {
+      "type": "object",
+      "properties": {
+        "quote": {
+          "type": "string",
+          "example": "Education is the most powerful weapon that we can use to change the world."
+        },
+        "author": {
+          "type": "string",
+          "example": "Nelson Mandela"
+        },
+        "tags": {
+          "type": "string",
+          "example": "life; education;"
+        }
+      }
+    },
+    "QuotesArrayResponse": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "quote_id": {
+            "type": "string",
+            "example": "f944af0d-5637-4810-b102-15509cc2c7d8"
+          },
+          "quote": {
+            "type": "string",
+            "example": "Technology is just a tool. In terms of getting the kids working together and motivating them, the teacher is most important"
+          },
+          "author": {
+            "type": "string",
+            "example": "Bill Gates"
+          },
+          "likes": {
+            "type": "number",
+            "example": 10
+          },
+          "dislikes": {
+            "type": "number",
+            "example": 3
+          },
+          "tags": {
+            "type": "string",
+            "example": "technology;"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-02-08T07:13:44.194Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2023-02-08T07:13:44.194Z"
+          }
+        }
+      }
+    },
+    "QuoteResponse": {
+      "type": "object",
+      "properties": {
+        "quote_id": {
+          "type": "string",
+          "example": "eafaf86e-aa92-4fe7-9d10-86add792a80d"
+        },
+        "quote": {
+          "type": "string",
+          "example": "Do not confine your children to your own learning, for they were born in another time."
+        },
+        "author": {
+          "type": "string",
+          "example": "Chinese Proverb"
+        },
+        "likes": {
+          "type": "number",
+          "example": 0
+        },
+        "dislikes": {
+          "type": "number",
+          "example": 0
+        },
+        "tags": {
+          "type": "string",
+          "example": "life;"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2023-02-08T07:13:44.194Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2023-02-08T07:13:44.194Z"
+        }
+      }
+    },
+    "AuthorResponse": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "string",
+            "example": "Pratap Shirsat"
+          }
+        }
+      }
+    },
+    "ServerSideError": {
+      "type": "object",
+      "properties": {
+        "Error": {
+          "type": "string",
+          "example": "Server side error occured"
+        }
+      }
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Operation was successfull"
+        }
+      }
+    },
+    "NotFoundResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Requested data not found"
+        }
+      }
+    },
+    "UserRequest": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string",
+              "example": "pratap"
+            },
+            "password": {
+              "type": "string",
+              "example": "Cci12345"
+            }
+          }
+        }
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "pratap"
+        },
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 <- some auth token"
+        }
+      }
+    },
+    "UserData": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "username": {
+              "type": "string",
+              "example": "pshirsat"
+            },
+            "password_hash": {
+              "type": "string",
+              "example": "49409cbd4f9c07369d5a33f9 <- some password hash"
+            },
+            "salt": {
+              "type": "string",
+              "example": "0062739612b5135f3ec06d48b9b66cb7"
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2023-02-10T15:46:46.455Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "2023-02-10T15:46:46.455Z"
+            }
+          }
+        }
+      }
+    }
+  }
+}

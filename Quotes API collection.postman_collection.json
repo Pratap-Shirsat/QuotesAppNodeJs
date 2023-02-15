@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "385d1a9a-7190-405a-b219-d41cd7711da3",
+		"name": "Quotes API collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14459495"
+	},
+	"item": [
+		{
+			"name": "Get quotes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/quote",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote"
+					]
+				},
+				"description": "Get The list of Users in the DB."
+			},
+			"response": []
+		},
+		{
+			"name": "Add Quote",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quote\": \"6 Hours of Debugging can save you 5 mins of reading the documentation!\",\n    \"author\": \"Jakob\",\n    \"tags\": \"software;\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/quote",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote"
+					]
+				},
+				"description": "Add a new *user* in the databse"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Quote",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"quote\": \"First, solve the problem. Then, write the code.\",\n    \"author\": \"John Johnson\",\n    \"tags\": \"software;languages\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/quote/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "9fcb9019-7c25-46bc-b5b9-72d9a9bf85a0"
+						}
+					]
+				},
+				"description": "Edit an existing user in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Quote",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/quote/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "9fcb9019-7c25-46bc-b5b9-72d9a9bf85a0"
+						}
+					]
+				},
+				"description": "Delete an existing user in the system"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all authors",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/author",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"author"
+					]
+				},
+				"description": "Get The list of Users in the DB."
+			},
+			"response": []
+		},
+		{
+			"name": "Get quotes by Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/quote/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "9fcb9019-7c25-46bc-b5b9-72d9a9bf85a0"
+						}
+					]
+				},
+				"description": "Get The list of Users in the DB."
+			},
+			"response": []
+		},
+		{
+			"name": "Search quote by quote substring",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/quote/search?quote=documentation",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						"search"
+					],
+					"query": [
+						{
+							"key": "quote",
+							"value": "documentation"
+						}
+					]
+				},
+				"description": "Get The list of Users in the DB."
+			},
+			"response": []
+		},
+		{
+			"name": "Search quote by tag",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/quote/search?tags=education;",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						"search"
+					],
+					"query": [
+						{
+							"key": "tags",
+							"value": "education;"
+						}
+					]
+				},
+				"description": "Get The list of Users in the DB."
+			},
+			"response": []
+		},
+		{
+			"name": "Search quote by author name",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/quote/search?author=jakob",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						"search"
+					],
+					"query": [
+						{
+							"key": "tags",
+							"value": "software;",
+							"disabled": true
+						},
+						{
+							"key": "author",
+							"value": "jakob"
+						},
+						{
+							"key": "quote",
+							"value": "documentation",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Get The list of Users in the DB."
+			},
+			"response": []
+		},
+		{
+			"name": "Like Count - Increase",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/quote/:id/like/up",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						":id",
+						"like",
+						"up"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "a39ba4f5-7791-47b2-8f07-369431b8f9c7"
+						}
+					]
+				},
+				"description": "Activate a user"
+			},
+			"response": []
+		},
+		{
+			"name": "Like Count -Decrease",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/quote/:id/like/down",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						":id",
+						"like",
+						"down"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "a39ba4f5-7791-47b2-8f07-369431b8f9c7"
+						}
+					]
+				},
+				"description": "Activate a user"
+			},
+			"response": []
+		},
+		{
+			"name": "Increase Dislike Count",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/quote/:id/dislike/up",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						":id",
+						"dislike",
+						"up"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "a39ba4f5-7791-47b2-8f07-369431b8f9c7"
+						}
+					]
+				},
+				"description": "Activate a user"
+			},
+			"response": []
+		},
+		{
+			"name": "Decrease DisLike Count",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/quote/:id/dislike/down",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quote",
+						":id",
+						"dislike",
+						"down"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "a39ba4f5-7791-47b2-8f07-369431b8f9c7"
+						}
+					]
+				},
+				"description": "Activate a user"
+			},
+			"response": []
+		}
+	]
+}
